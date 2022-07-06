@@ -13,3 +13,5 @@ class Women(models.Model):  #наследуем от базового класс
 
     def __str__(self):
         return self.title
+
+        
