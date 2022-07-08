@@ -1,4 +1,5 @@
 from http.client import HTTPResponse
+from multiprocessing import context
 from pickle import GET
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
@@ -6,30 +7,50 @@ from django.shortcuts import render, redirect
 from .models import *
 
 
-menu = ["О сайте", "Добавить статью", "Обратная связь", "Войти"]
+menu = [
+    {'title':"О сайте", 'url_name':'about' },
+    {'title':"Добавить статью", 'url_name':'add_page' },
+    {'title':"Обратная связь", 'url_name':'contact' },
+    {'title':"Войти", 'url_name':'login' }
+]
+
+#["О сайте", "Добавить статью", "Обратная связь", "Войти"]
 
 def index(request):
     posts = Women.objects.all()
-    return render(request, 'women/index.html', {'posts' : posts,'menu' : menu,'title': 'Главная страница'})
+    context_sp = {
+        'posts' : posts,
+        'menu' : menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'women/index.html', context=context_sp)
 
 def about(request):
     return render(request, 'women/about.html', {'menu' : menu,'title': 'О сайте'})
 
+def addpage(request):
+    return HTTPResponse("Добавить статью")    
+
+def contact(request):
+    return HTTPResponse("Обратная связь")
+
+def login(request):
+    return HTTPResponse("Войти")    
 
 #def index(request): #HttpRequest
     #return HttpResponse("Страница приложения women")
 
-def categories(request, catid):
-    if request. POST: 
-        print(request. POST)
+#def categories(request, catid):
+ #   if request. POST: 
+  #      print(request. POST)
 
-    return HttpResponse(f"<h1>Статьи по категориям</h1><p>{catid}</p>")
+   # return HttpResponse(f"<h1>Статьи по категориям</h1><p>{catid}</p>")
 
-def archive(request, year): 
-    if int(year) > 2020:
-        return redirect('home', permanent=True)
+#def archive(request, year): 
+ #   if int(year) > 2020:
+  #      return redirect('home', permanent=True)
 
-    return HttpResponse(f"<h1>Архив по годам</h1><p>{year}</p>") 
+   # return HttpResponse(f"<h1>Архив по годам</h1><p>{year}</p>") 
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
