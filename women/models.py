@@ -1,6 +1,7 @@
 from distutils.command.upload import upload
 from turtle import title, update
 from django.db import models
+from django.urls import reverse
 
 
 class Women(models.Model):  #наследуем от базового класса Model (поле id прописанно автоматически в этом классе)
@@ -14,4 +15,5 @@ class Women(models.Model):  #наследуем от базового класс
     def __str__(self):
         return self.title
 
-        
+    def get_absolute_urel(self):
+        return reverse('post', kwargs={'post_id':self.pk})

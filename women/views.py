@@ -29,13 +29,16 @@ def about(request):
     return render(request, 'women/about.html', {'menu' : menu,'title': 'О сайте'})
 
 def addpage(request):
-    return HTTPResponse("Добавить статью")    
+    return HttpResponse("Добавить статью")    
 
 def contact(request):
-    return HTTPResponse("Обратная связь")
+    return HttpResponse("Обратная связь")
 
 def login(request):
-    return HTTPResponse("Войти")    
+    return HttpResponse("Войти") 
+
+def show_post(request, post_id):
+    return HttpResponse(f"Отображение статьи с id = {post_id}")  
 
 #def index(request): #HttpRequest
     #return HttpResponse("Страница приложения women")
